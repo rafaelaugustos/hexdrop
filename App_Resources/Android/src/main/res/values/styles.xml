@@ -10,6 +10,9 @@
     <item name="colorAccent">#B5F564</item>
   </style>
   <style name="AppTheme" parent="AppThemeBase"/>
+  <style name="LaunchTheme" parent="AppTheme">
+    <item name="android:windowBackground">@drawable/launch_screen</item>
+  </style>
   <style name="NativeScriptToolbarStyleBase" parent="Widget.AppCompat.Toolbar"/>
   <style name="NativeScriptToolbarStyle" parent="NativeScriptToolbarStyleBase"/>
 </resources>

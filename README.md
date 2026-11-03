@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="resources/branding/hexdrop-icon.png" width="96" alt="Hexdrop potion icon" />
+
 # Hexdrop 🧪
 
 **One file. A little alchemy.**
@@ -8,9 +10,11 @@ A native potion-upload experiment built with **NativeScript-Vue** and **Jolt**.
 
 [NativeScript 9](https://nativescript.org/) · [Vue 3](https://nativescript-vue.org/) · [Jolt 0.1.0-rc.11](https://jolt.rafaelaugusto.dev/)
 
-<img src="docs/images/ready.png" width="280" alt="Hexdrop: an empty glass vial waiting for an ingredient" />
+<img src="docs/images/launch.png" width="240" alt="Hexdrop launch animation: a glowing potion inside a hexagonal seal" />
 &nbsp;
-<img src="docs/images/complete.png" width="280" alt="The completed green potion, with a spider hanging on its open crystal stopper" />
+<img src="docs/images/ready.png" width="240" alt="Hexdrop: an empty glass vial waiting for an ingredient" />
+&nbsp;
+<img src="docs/images/complete.png" width="240" alt="The completed green potion, with a spider hanging on its open crystal stopper" />
 
 *Captured in the iOS simulator.*
 
@@ -46,6 +50,7 @@ The [native launcher](scripts/native.sh) detects the default macOS Android SDK l
 
 ## The interaction
 
+- **Launch** with a short Jolt sequence: the potion floats inside a drawing hexagonal seal, releases a soft light wave and reveals the app. Reduce Motion uses a brief fade instead.
 - **Drag the file card** onto the vial to brew. Release it outside and Jolt springs it back into place.
 - **Tap the card or Brew potion** for the same interaction without dragging.
 - **Choose file** opens the system document picker. The selected name and size appear on the card.
@@ -66,7 +71,8 @@ src/
 ├── components/
 │   ├── HexdropHeader.vue        Brand, introduction and sound toggle
 │   ├── PotionStage.vue          Vial, progress and status copy
-│   └── IngredientPanel.vue      File card, picker action and brew controls
+│   ├── IngredientPanel.vue      File card, picker action and brew controls
+│   └── LaunchScreen.vue         Launch layout and transition into the app
 ├── composables/
 │   ├── usePotion.ts             Ingredient, brew state and app lifecycle
 │   └── useIngredientDrag.ts     Jolt drag, drop acceptance and card feedback
@@ -74,6 +80,8 @@ src/
 │   ├── potion-view.ts           Native view lifecycle and animation sequence
 │   ├── potion-artwork.ts        Vector scene and reusable spider artwork
 │   └── geometry.ts              Paths, morph geometry and drop bounds
+├── launch/
+│   └── launch-animation.ts      Pausable Jolt entrance, seal and light effects
 ├── services/
 │   ├── files.ts                 File metadata, validation and formatting
 │   ├── file-picker.*            iOS / Android document picker adapters
@@ -98,6 +106,7 @@ The card's gesture controller and visual feedback have separate ownership: reset
 | `particles()` | Bubbles, travelling sparks and the completion burst |
 | `press()` | Button feedback |
 | `motionScope()` | Animation ownership, cancellation and background lifecycle |
+| `timeline()` | Overlapping launch animation tracks with shared pause/resume |
 
 Jolt provides the **drag mechanics**. The app supplies the **drop rule**: the scaled, rotated card's bounding rectangle must overlap the vial target when released. The final release coordinates are checked again before accepting it. This is an in-app card interaction; importing a document uses the system picker.
 
@@ -133,8 +142,20 @@ For a quicker JavaScript-only check, use `npm run bundle:ios` or `npm run bundle
 
 Local captures and validation reports go in the ignored `artifacts/` directory. The screenshots above live in `docs/images/` so they remain available with the repository. Physical-device performance has not been measured.
 
+### App icon and launch assets
+
+The system launch screen shows a static potion on the app's dark background. Once NativeScript is ready, the same mark continues into the Jolt animation, which takes about 1.9 seconds. The entrance runs once per app mount and pauses in the background; it does not replay every time the app resumes.
+
+The [master artwork](resources/branding/hexdrop-mark.png) has a transparent background. Exported assets include opaque iOS app icons, Android legacy and adaptive icons, an Android monochrome layer, and matching launch images. All exports are checked in. To regenerate them after changing the artwork, install ImageMagick and run:
+
+```sh
+node scripts/generate-icons.cjs
+```
+
 ## Credits
 
-Inspired by the potion-upload animation supplied as the project's visual reference, originally made with React Native, Expo, Skia and Reanimated. Hexdrop recreates the scene with NativeScript-Vue and Jolt; all visual artwork is constructed in code. The sound effects are excerpts from the supplied recording.
+Inspired by the potion-upload animation supplied as the project's visual reference, originally made with React Native, Expo, Skia and Reanimated. Hexdrop recreates the interactive vial scene with NativeScript-Vue and Jolt, drawing its artwork in code. The sound effects are excerpts from the supplied recording.
+
+The app icon and launch mark were created with image generation; the [source record](resources/branding/source.json) includes the prompt. Launch motion and effects are implemented with Jolt.
 
 Motion and rendering: [Jolt](https://jolt.rafaelaugusto.dev/), by Rafael Augusto / Cortex Labs. Typeface: **Pixelify Sans**, distributed under the [SIL Open Font License](src/fonts/OFL-PixelifySans.txt).

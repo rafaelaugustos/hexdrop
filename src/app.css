@@ -38,3 +38,6 @@ Button { border-width: 1; border-radius: 10; font-size: 12; font-weight: 600; he
 .compact .headline { font-size: 27; }
 .compact .intro { margin-top: 6; font-size: 10; }
 .compact .status { margin-top: 8; }
+.launch-screen { background-color: #0a090e; }
+.launch-title { font-family: 'Pixelify Sans', 'PixelifySans-Regular'; font-size: 36; letter-spacing: 0.15; text-align: center; color: #f3f1e8; }
+.launch-caption { font-size: 12; text-align: center; color: #8a8294; }
