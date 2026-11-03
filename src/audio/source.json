@@ -1,0 +1,9 @@
+{
+  "source": "User-provided reference video DYcbK4TOtCWJ9Cyj.mp4",
+  "format": "44100 Hz, mono, 16-bit PCM WAV",
+  "cues": {
+    "ignition.wav": { "sourceStartSeconds": 1.74, "sourceDurationSeconds": 0.65, "outputDurationSeconds": 0.65 },
+    "complete.wav": { "sourceStartSeconds": 8.02, "sourceDurationSeconds": 2.78, "outputDurationSeconds": 2.78 }
+  },
+  "processing": "Short edge fades. The reference's filling interval is silent and has no audio cue."
+}
